@@ -1,4 +1,4 @@
-package com.kovacs.Register.Service
+package com.kovacs.register.service
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
