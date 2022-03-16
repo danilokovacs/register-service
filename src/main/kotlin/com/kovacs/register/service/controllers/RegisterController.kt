@@ -51,4 +51,21 @@ class RegisterController (private val registerRepository: RegisterRepository) {
         val newProduct = registerRepository.save(json)
         return ResponseEntity.ok(newProduct)
     }
+
+    @PutMapping("/products/update/{id}")
+    fun updateProduct(
+        @PathVariable id: Int, @RequestBody json: Product
+    ): ResponseEntity<Any> {
+        val updatedProduct = registerRepository.findById(id)
+            .orElseThrow{RuntimeException("Product not found with $id")}
+
+        updatedProduct.title = json.title
+        updatedProduct.descProduct = json.title
+        updatedProduct.image = json.image
+        updatedProduct.price = json.price
+
+        registerRepository.save(updatedProduct)
+        return ResponseEntity.ok(updatedProduct)
+    }
+
 }
