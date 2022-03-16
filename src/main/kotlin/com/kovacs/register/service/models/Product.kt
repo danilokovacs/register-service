@@ -12,7 +12,7 @@ class Product {
     var title = ""
 
     @Column
-    var description = ""
+    var descProduct = ""
 
     @Column
     var image = ""
