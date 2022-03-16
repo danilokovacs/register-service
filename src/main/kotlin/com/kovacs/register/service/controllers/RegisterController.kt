@@ -1,7 +1,9 @@
 package com.kovacs.register.service.controllers
 
+import com.kovacs.register.service.dtos.PaginatedResponse
 import com.kovacs.register.service.models.Product
 import com.kovacs.register.service.repositories.RegisterRepository
+import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -21,8 +23,9 @@ class RegisterController (private val registerRepository: RegisterRepository) {
     @GetMapping("/products/backend")
     fun backend(
         @RequestParam("s", defaultValue = "") s:String,
-        @RequestParam("sort", defaultValue = "") sort:String
-    ): ResponseEntity<List<Product>>{
+        @RequestParam("sort", defaultValue = "") sort:String,
+        @RequestParam("page", defaultValue = "1") page: Int
+    ): ResponseEntity<Any>{
         var direction = Sort.unsorted()
 
         if (sort == "asc"){
@@ -31,6 +34,16 @@ class RegisterController (private val registerRepository: RegisterRepository) {
             direction = Sort.by(Sort.Direction.DESC, "price")
         }
 
-        return ResponseEntity.ok(this.registerRepository.search(s, direction))
+        val perPage = 10
+        val total = this.registerRepository.countSearch(s)
+
+        return ResponseEntity.ok(
+            PaginatedResponse(
+                data = this.registerRepository.search(s, PageRequest.of(page - 1, perPage, direction)),
+                total,
+                page,
+                last_page = total / perPage
+            )
+        )
     }
 }
