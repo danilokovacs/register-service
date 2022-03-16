@@ -57,7 +57,7 @@ class RegisterController (private val registerRepository: RegisterRepository) {
         @PathVariable id: Int, @RequestBody json: Product
     ): ResponseEntity<Any> {
         val updatedProduct = registerRepository.findById(id)
-            .orElseThrow{RuntimeException("Product not found with $id")}
+            .orElseThrow{RuntimeException("Product not found with id $id")}
 
         updatedProduct.title = json.title
         updatedProduct.descProduct = json.title
@@ -67,5 +67,17 @@ class RegisterController (private val registerRepository: RegisterRepository) {
         registerRepository.save(updatedProduct)
         return ResponseEntity.ok(updatedProduct)
     }
+
+    @DeleteMapping("/products/delete/{id}")
+    fun deleteProduct(
+        @PathVariable id: Int
+    ): ResponseEntity<Any> {
+        val deletedProduct = registerRepository.findById(id)
+            .orElseThrow{RuntimeException("Product not found with id $id")}
+
+        registerRepository.delete(deletedProduct)
+        return ResponseEntity.ok(deletedProduct)
+    }
+
 
 }
