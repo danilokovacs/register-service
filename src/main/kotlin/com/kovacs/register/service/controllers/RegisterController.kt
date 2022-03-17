@@ -44,6 +44,14 @@ class RegisterController (private val registerRepository: RegisterRepository) {
         )
     }
 
+    @GetMapping("/products/price/{id}")
+    fun getPrice(
+        @PathVariable id: Int
+    ):ResponseEntity<Any>{
+        val product = registerRepository.getPriceById(id)
+        return ResponseEntity.ok("price: ${product.price}")
+    }
+
     @PostMapping("/products/register")
     fun registerProduct(
         @RequestBody json: Product
@@ -60,7 +68,7 @@ class RegisterController (private val registerRepository: RegisterRepository) {
             .orElseThrow{RuntimeException("Product not found with id $id")}
 
         updatedProduct.title = json.title
-        updatedProduct.descProduct = json.title
+        updatedProduct.desc_product = json.title
         updatedProduct.image = json.image
         updatedProduct.price = json.price
 

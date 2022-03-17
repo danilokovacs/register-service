@@ -16,7 +16,7 @@ class DataSeeder(private val registerRepository: RegisterRepository): Applicatio
             val image = Random.nextInt(10000)
 
             product.title = "Title #" + i
-            product.descProduct = "Description #" + (i + 1)
+            product.desc_product = "Description #" + (i + 1)
             product.image = "https://picsum.photos/id/${image}/200/300"
             product.price = Random.nextInt(10,100)
             this.registerRepository.save(product)
