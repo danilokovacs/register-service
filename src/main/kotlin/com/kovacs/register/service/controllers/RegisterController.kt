@@ -52,6 +52,15 @@ class RegisterController (private val registerRepository: RegisterRepository) {
         return ResponseEntity.ok("price: ${product.price}")
     }
 
+    @GetMapping("/products/price/{origin}/{bound}")
+    fun getSumPriceInterval(
+        @PathVariable origin: Int,
+        @PathVariable bound: Int
+    ):ResponseEntity<Any>{
+        val product = registerRepository.getSumPriceInterval(origin, bound)
+        return ResponseEntity.ok("sum of prices between $origin and $bound: $product")
+    }
+
     @PostMapping("/products/register")
     fun registerProduct(
         @RequestBody json: Product
