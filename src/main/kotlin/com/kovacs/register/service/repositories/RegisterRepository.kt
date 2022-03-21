@@ -19,4 +19,7 @@ interface RegisterRepository : JpaRepository <Product, Int>  {
 
     @Query("SELECT SUM(p.price) FROM Product AS p WHERE p.id BETWEEN ?1 AND ?2")
     fun getSumPriceInterval(origin: Int, bound: Int): String
+
+    @Query("SELECT AVG(p.price) FROM Product AS p WHERE p.id BETWEEN ?1 AND ?2")
+    fun getAvgPriceInterval(origin: Int, bound: Int): String
 }
